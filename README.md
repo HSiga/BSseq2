@@ -1,27 +1,48 @@
-# BSseq2
-Analysing whole genome BS and hBS sequencing data
+For data reproducibility, it is recommended to test a down-sampled dataset on a local UNIX-based system (such as MacOS or Linux). For analyzing a large dataset with single-base pair resolution of BS and OxBS sequencing, a high-performance computing (HPC) environment is necessary. Please refer to the specific software/package recommendations for the computational requirements at each step.
 
-# Brief description of the scripts used for manuscript:
-0_ncpg.R: calculate number of CPGs with step size from all CPGs bed file of a genome.
+The analysis involves the following main steps:
 
-1_Pipeline_from_bismarkoutputs.R: bismark alignment and methylation calling
+1- Pre-process:
+The data (BS and oxBS reads) are first cut with Cutadapt (v1.11) and then mapped to the reference genome, here, the mouse genome (GRCm38.p4) using Bismark (v0.19.0). SAMtools (v1.8) can then be used for sorting and indexing. The methylation counts can then be extracted using “bismark_methylation_extractor” tool. 
 
-2_5mc-analysis.R: DMR analysis
+2- Post process:
+Post-processing steps involve running different R/bash scripts as follows: 
 
-3_mouse_annotation.bash: DMR annotation
+	0_ncpg.R
+This code is to calculate the number of CPGs with step size from all CPGs bed files of a reference genome.
 
-4_gtf2introns.R: extracting intron infrmation from mouse GTF-annotation
+	1_Pipeline_from_bismarkoutputs.R
+The final outputs from previous steps can be used as inputs to this script. From the pre-processing, CytosineReports "...CpG_report.txt.gz", Bismarkcoverage "...bismark.cov.gz" or after being converted to Methylkit format  "..methcounts.gz" can be used as inputs. The script can be run in R (v.3.6) with the main packages. methylKit package (v1.12.0) and MLML2R package (v0.3.3). 
 
-5_PCA_mc_hmc.R: building mc and hmc matrices and making PCA analysis
+	2_5mc-analysis.R
+The output from the previous step *cov.gz files are used as input in this step, the scripts can be run in R (v3.4.3) and the main package to use is “bsseq” (v1.14.0 ) 
 
-6_IoU.R: intersection over union analysis of DMRs with respect to functional elements
+3_mouse_annotation.bash
+Besh script to annotate the DMR files from the previous step.
 
-7_methyl_per_func_group.R: building methylation levels for each group of functional elements
+4_gtf2introns.R:
+The script is to extract intron information from mouse GTF-annotation
+No main packages are needed
 
-8_select_diff_meth_CpG.R: performing differential methylation analysis
+5_PCA_mc_hmc.R:
+Building 5mc and 5hmc matrices and making PCA analysis
+No main packages are needed
 
-9_heatmap.R: computing heatmap combining gene expression and DNA methylation information
+6_IoU.R:
+Intersection over union analysis of DMRs for functional elements
 
-10_heatmap_pathway.R: computing heatmap combining RNAseq pathway analysis with DNA methylation
+7_methyl_per_func_group.R:
+Building methylation levels for each group of functional elements
 
-11_figures.R: making figures for manuscript
+8_select_diff_meth_CpG.R:
+Performing differential methylation analysis
+
+9_heatmap.R:
+Computing heatmap combining gene expression and DNA methylation information
+
+10_heatmap_pathway.R:
+Computing heatmap combining RNAseq pathway analysis with DNA methylation
+
+11_figures.R:
+Making figures for the manuscript
+
