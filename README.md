@@ -1,7 +1,7 @@
 # BSseq2
 Epigenetics analysis of whole genome Bisulfite (BS) and Oxidative bisulfite (OxBS) sequencing data
 
-This code was developed for the data analysis included in the published paper _¨Epigenetic modulators link mitochondrial redox homeostasis to cardiac function¨._
+This code was developed for the data analysis included in the published paper _¨Epigenetic modulators link mitochondrial redox homeostasis to cardiac function in a sex-dependent manner ¨._
 
 # Brief description of the scripts used for the manuscript:
 
